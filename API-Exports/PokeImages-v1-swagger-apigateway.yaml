@@ -1,0 +1,37 @@
+---
+swagger: "2.0"
+info:
+  version: "2023-10-06T19:44:16Z"
+  title: "PokeImages"
+host: "xzo1nocy8c.execute-api.us-east-1.amazonaws.com"
+basePath: "/v1"
+schemes:
+- "https"
+paths:
+  /{pokemon}:
+    get:
+      produces:
+      - "application/json"
+      parameters:
+      - name: "pokemon"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/Empty"
+      x-amazon-apigateway-integration:
+        type: "aws_proxy"
+        httpMethod: "POST"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:530347479310:function:pokeimages/invocations"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        contentHandling: "CONVERT_TO_TEXT"
+definitions:
+  Empty:
+    type: "object"
+    title: "Empty Schema"

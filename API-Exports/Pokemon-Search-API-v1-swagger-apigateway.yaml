@@ -1,0 +1,46 @@
+---
+swagger: "2.0"
+info:
+  version: "2023-10-07T21:12:11Z"
+  title: "Pokemon-Search-API"
+host: "kdlehz80t9.execute-api.us-east-1.amazonaws.com"
+basePath: "/v1"
+schemes:
+- "https"
+paths:
+  /:
+    get:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "Error"
+        required: true
+        schema:
+          $ref: "#/definitions/Error"
+      responses:
+        "200":
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/Empty"
+      x-amazon-apigateway-integration:
+        type: "aws_proxy"
+        httpMethod: "POST"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:530347479310:function:Pokemon-Search-Lambda/invocations"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        contentHandling: "CONVERT_TO_TEXT"
+definitions:
+  Empty:
+    type: "object"
+    title: "Empty Schema"
+  Error:
+    type: "object"
+    properties:
+      message:
+        type: "string"
+    title: "Error Schema"
